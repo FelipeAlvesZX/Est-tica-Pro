@@ -1,2 +1,3 @@
-# Est-tica-Pro
+# Estetica-Pro
 Um projeto em django para treino de algumas habilidades
+
