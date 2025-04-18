@@ -1,0 +1,66 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <title>
+      {% block title %}
+        Estética Pro
+      {% endblock %}
+    </title>
+  </head>
+  <body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">Estética Pro</a>
+      <div class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'lista_produtos' %}">Produtos</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'lista_vendas' %}">Vendas</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'lista_categorias' %}">Categorias</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'lista_clientes' %}">Clientes</a>
+          </li>
+        </ul>
+        <ul class="navbar-nav ml-auto">
+          {% if vendedor %}
+          <li class="nav-item">
+            <span class="navbar-text">Vendedor: {{ vendedor.nome }}</span>
+            {% else %}
+            <a href="{% url 'vendedor_login' %}" class="mt-2">Sair</a>
+          {% endif %}
+        </ul>
+      </div>
+    </nav>
+    <div class="container">
+      {% block content %}
+
+      {% endblock %}
+    </div>
+    {% if messages %}
+      <div class="container mt-3">
+        {% for message in messages %}
+          <div class="alert alert-success" role="alert">{{ message }}</div>
+        {% endfor %}
+      </div>
+    {% endif %}
+    <script src="{% static 'js/jquery.inputmask.min.js' %}"></script>
+    <script>
+      document.addEventListener('DOMContentLoaded', function () {
+        Inputmask({ "mask": "(99) 99999-9999" }).mask("#id_Telefone");
+        });
+        document.addEventListener('DOMContentLoaded', function () {
+          Inputmask({ "mask": "999.999.999-99" }).mask("#id_cpf");
+        });
+      
+      
+    </script>
+  </body>
+</html>

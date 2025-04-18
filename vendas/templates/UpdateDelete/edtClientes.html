@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Cliente{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center alert alert-info">Alteração Do Cliente</h1>
+        <form action="{% url 'altCliente' object.id %}" style="color: white;" method="post" class="form"
+            autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button href="{% url 'lista_clientes' %}" type="submit" class="btn btn-primary">Alterar
+                Cliente</button>
+        </form>
+    </div>
+
+{% endblock %}

@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Vendas{% endblock %}
+
+{% block content %}
+<div class="mt-5">
+    <h1>Lista de Vendas</h1>
+    <form method="POST" class="mb-3">
+        {% csrf_token %}
+        <input type="text" name="q" placeholder="Buscar vendas..." class="form-control" value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+        <a href="{% url 'criar_venda' %}" class="btn btn-primary mt-2">Criar Venda</a>
+    </form>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>ID da Venda</th>
+                <th>Cliente</th>
+                <th>Data da Venda</th>
+                <th>Valor Total</th>
+                <th>Status</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for venda in vendas %}
+            <tr>
+                <td>{{ venda.id }}</td>
+                <td>{{ venda.cliente.nome }}</td>
+                <td>{{ venda.data_venda }}</td>
+                <td>R$ {{ venda.valor_total }}</td>
+                <td>{{ venda.status }}</td>
+                <td>{{ venda.total_quantity|default:0 }}</td>  <!-- Use the annotated field directly -->
+                <td>
+                    <a href="{% url 'altVenda' venda.pk %}" class="btn btn-warning">Alterar</a> ||
+                    <a href="{% url 'delVenda' venda.pk %}" class="btn btn-danger">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if vendas.has_previous %}
+                <a href="?page=1&q={{ request.POST.q }}">&laquo; Primeira Página</a> ||
+                <a href="?page={{ vendas.previous_page_number }}&q={{ request.POST.q }}">Anterior Página</a>
+            {% endif %}
+
+            {% if vendas.has_next %}
+                <a href="?page={{ vendas.next_page_number }}&q={{ request.POST.q }}">Próxima Página</a> ||
+                <a href="?page={{ vendas.paginator.num_pages }}&q={{ request.POST.q }}">última Página&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

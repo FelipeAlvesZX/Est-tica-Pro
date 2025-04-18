@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Produto{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center alert alert-info">Alteração Do Produto</h1>
+        <form action="{% url 'altProduto' object.id %}" method="post" class="form"
+            autocomplete="off" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button href="{% url 'lista_produtos' %}" type="submit" class="btn btn-primary">Alterar
+                Produto</button>
+        </form>
+    </div>
+
+{% endblock %}

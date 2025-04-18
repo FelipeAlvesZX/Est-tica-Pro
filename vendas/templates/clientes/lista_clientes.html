@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Lista de Clientes
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="mb-4">Lista de Clientes</h1>
+    <div class="mt-2">
+      <input type="text" name="q" placeholder="Buscar clientes..." class="form-control" value="{{ request.POST.q }}" />
+      <button type="submit" class="btn btn-primary mt-3">Buscar</button>
+      <a href="{% url 'adicionar_cliente' %}" class="btn btn-primary mt-3">Adicionar Cliente</a>
+      <br>
+    </div>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Email</th>
+          <th>Telefone</th>
+          <th>CPF</th>
+          <th>Criado em</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cliente in clientes %}
+          <tr>
+            <td>{{ cliente.id }}</td>
+            <td>{{ cliente.nome }}</td>
+            <td>{{ cliente.email }}</td>
+            <td>{{ cliente.telefone }}</td>
+            <td>{{ cliente.cpf }}</td>
+            <td>{{ cliente.created_at }}</td>
+            
+          </tr>
+        {% empty %}
+          <tr>
+            <td colspan="6" class="text-center">Nenhum cliente cadastrado.</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

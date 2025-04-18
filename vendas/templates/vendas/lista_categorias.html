@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}
+  Lista de Categoria
+{% endblock %}
+
+{% block content %}
+  <div class="container mt-5">
+    <h1 class="mb-4">Lista de Categorias</h1>
+    <input type="text" name="q" placeholder="Buscar categoria..." class="form-control" value="{{ request.GET.q }}">
+    <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+    <a href="{% url 'criar_categoria' %}" class="btn btn-primary mt-2">Criar nova categoria</a>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th>Criado em</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for categoria in categorias %}
+          <tr>
+            <td>{{ categoria.id }}</td>
+            <td>{{ categoria.nome }}</td>
+            <td>{{ categoria.descricao }}</td>
+            <td>{{ categoria.created_at }}</td>
+            <td>
+              <a href="{% url 'altCategoria'  categoria.pk %}" class="btn btn-warning">Alterar</a> ||
+              <a href="{% url 'delCategoria'  categoria.pk %}" class="btn btn-danger">Excluir</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+{% endblock %}

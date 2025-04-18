@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+
+{% block title %}Excluir Venda{% endblock %}
+
+{% block content %}
+
+    <div class="botao-container container" style="align-items: center;">
+        <h1>Excluir Venda</h1>
+        <form action="" method="post" >
+            <div class="container">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Sim" class="btn btn-danger">
+                <a href="{% url 'lista_vendas' %}" type="submit" class="btn btn-success">Nao</a>
+            </div>
+        </form>
+    </div>
+{% endblock %}

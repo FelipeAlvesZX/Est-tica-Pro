@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+
+{% block title %}Editar Venda{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <h1 class="text-center alert alert-info">Alteração Da Venda</h1>
+        <form action="{% url 'altVenda' object.id %}" method="post" class="form" autocomplete="off">
+            {% csrf_token %}
+            {{ form.as_p }}
+
+            <h3>Produtos:</h3>
+            <div id="produtos-container">
+                {% for item in itens_venda %}
+                <div class="produto-item">
+                    <select name="produto_id" class="form-control">
+                        {% for produto in produtos %}
+                        <option value="{{ produto.id }}" {% if produto.id == item.produto.id %}selected{% endif %}>
+                            {{ produto.nome }}
+                        </option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="quantidade_vendida" class="form-control mt-2" 
+                           value="{{ item.quantidade }}" min="1" required />
+                    <button type="button" class="btn btn-danger btn-remover-produto mt-2">Remover</button>
+                </div>
+                {% endfor %}
+            </div>
+            
+            <button type="button" id="add-produto" class="btn btn-secondary mt-2">Adicionar Produto</button>
+            <button type="submit" class="btn btn-primary mt-2">Alterar Venda</button>
+            <a href="{% url 'lista_vendas' %}" type="submit" class="btn btn-success mt-2">Nao Alterar</a>
+        </form>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const container = document.getElementById('produtos-container');
+            const addProdutoButton = document.getElementById('add-produto');
+
+            addProdutoButton.addEventListener('click', function () {
+                const newItem = document.createElement('div');
+                newItem.classList.add('produto-item');
+                newItem.innerHTML = `
+                    <select name="produto_id" class="form-control">
+                        {% for produto in produtos %}
+                        <option value="{{ produto.id }}">{{ produto.nome }}</option>
+                        {% endfor %}
+                    </select>
+                    <input type="number" name="quantidade_vendida" class="form-control mt-2" placeholder="Quantidade" min="1" required />
+                    <button type="button" class="btn btn-danger btn-remover-produto mt-2">Remover</button>
+                `;
+                container.appendChild(newItem);
+            });
+
+            container.addEventListener('click', function (e) {
+                if (e.target.classList.contains('btn-remover-produto')) {
+                    e.target.parentElement.remove();
+                }
+            });
+        });
+    </script>
+{% endblock %}

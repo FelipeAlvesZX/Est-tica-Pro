@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+
+{% block title %}Lista de Produtos{% endblock %}
+
+{% block content %}
+<div class="mt-5">
+    <h1>Lista de Produtos</h1>
+    <form method="post" class="mb-3">
+        {% csrf_token %}
+        <input type="text" name="q" placeholder="Buscar produtos..." class="form-control" value="{{ request.GET.q }}">
+        <button type="submit" class="btn btn-primary mt-2">Buscar</button>
+        <a href="{% url 'criar_produto' %}" class="btn btn-primary mt-2">Criar Produto</a>
+    </form>
+    <table class="table table-striped">
+        
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Descrição</th>
+                <th>Preço</th>
+                <th>Quantidade em Estoque</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for produto in produtos %}
+            <tr>
+                <td>{{ produto.nome }}</td>
+                <td>{{ produto.descricao }}</td>
+                <td>R$ {{ produto.preco }}</td>
+                <td>{{ produto.quantidade_estoque }}</td>
+                <td>
+                    <a href="{% url 'altProduto'  produto.pk %}" class="btn btn-warning">Alterar</a> ||
+                    <a href="{% url 'delProduto'  produto.pk %}" class="btn btn-danger">Excluir</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+    <div class="pagination">
+        <span class="step-links">
+            {% if produtos.has_previous %}
+                <a href="?page=1&q={{ request.GET.q }}">&laquo; Primeira Página</a> ||
+                <a href="?page={{ produtos.previous_page_number }}&q={{ request.GET.q }}">Anterior Página</a>
+            {% endif %}
+
+            {% if produtos.has_next %}
+                <a href="?page={{ produtos.next_page_number }}&q={{ request.GET.q }}">Próxima Página</a> ||
+                <a href="?page={{ produtos.paginator.num_pages }}&q={{ request.GET.q }}">última Página&raquo;</a>
+            {% endif %}
+        </span>
+    </div>
+</div>
+{% endblock %}

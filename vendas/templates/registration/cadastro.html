@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" />
+    <title>Cadastro de Vendedor</title>
+  </head>
+  <body>
+    <div class="container mt-5">
+      <h2 class="mb-4">Cadastro de Vendedor</h2>
+
+      {% if messages %}
+        {% for message in messages %}
+          <div class="alert alert-error">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+
+      <form method="post">
+        {% csrf_token %}
+        <div class="form-group mb-3">
+          <label for="id_nome">{{ form.nome.label }}</label>
+          {{ form.nome }}
+          {{ form.nome.errors }}
+        </div>
+        <div class="form-group mb-3">
+          <label for="id_email">{{ form.email.label }}</label>
+          {{ form.email }}
+          {{ form.email.errors }}
+        </div>
+        <div class="form-group mb-3">
+          <label for="id_senha">{{ form.senha.label }}</label>
+          {{ form.senha }}
+          {{ form.senha.errors }}
+        </div>
+        <div class="form-group mb-3">
+          <label for="id_confSenha">{{ form.confSenha.label }}</label>
+          {{ form.confSenha }}
+          {{ form.confSenha.errors }}
+        </div>
+        <button type="submit" class="btn btn-success">Cadastrar</button>
+        <a href="{% url 'vendedor_login' %}" class="btn btn-danger">Voltar</a>
+      </form>
+    </div>
+  </body>
+</html>
